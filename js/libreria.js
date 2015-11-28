@@ -6,7 +6,7 @@
 				marco = null,
 				rutas = {},
 				controladores = {},
-				controlador,
+				ctrlActual = null,
 
 				libreria = {
 
@@ -15,11 +15,23 @@
 						return this;
 					},
 
+					get: function(id){
+						return document.getElementById(id);
+					},
+
 					noSubmit: function(){
 						elemento.addEventListener('submit', function(e){
 							e.preventDefault();
 						}, false);
 						return this;
+					},
+
+					controlador: function(nombre, ctrl){
+						controladores[nombre] = {'controlador': ctrl};
+					},
+
+					getCtrl: function(){
+						return ctrlActual;
 					},
 
 					enrutar: function(){
@@ -43,8 +55,17 @@
 
 						if(destino && destino.plantilla){
 
+							if(destino.controlador){
+								ctrlActual = controladores[destino.controlador].controlador;
+							}
+							
 							xhr.addEventListener('load', function(){
 								marco.innerHTML = this.responseText;
+								setTimeout(function(){
+									if(typeof(destino.carga) === 'function'){
+										destino.carga();
+									}
+								}, 500);
 							}, false);
 
 							xhr.open('get', destino.plantilla, true);
