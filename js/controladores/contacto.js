@@ -1,4 +1,6 @@
 (function(window, document){
+	'use strict';
+
 	var consecutivo = 0;
 	_.controlador('contacto', {
 
@@ -21,7 +23,19 @@
 		},
 
 
-		eliminar: function(){},
+		eliminar: function(id){
+			var i = 0, max = this.contactos.length;
+			if(confirm("Desea eliminar el contacto?")){
+				for(; i < max; i = i + 1){
+					if(parseInt(id, 10) === this.contactos[i].identificador){
+						this.contactos.splice(i, 1);
+						break;
+					}
+				}
+				this.listar();
+			}
+		},
+
 		actualizar: function(){},
 
 		listar: function(){
@@ -51,7 +65,7 @@
 				// Acciones de eliminar y actualizar
 				acciones = clon.querySelector('.acciones');
 				eliminar = acciones.querySelector('.eliminar');
-				actualiar = acciones.querySelector('.actualizar');
+				actualizar = acciones.querySelector('.actualizar');
 
 				eliminar.dataset.id = registro.identificador;
 				eliminar.addEventListener('click', function(e){
@@ -59,8 +73,8 @@
 					self.eliminar(e.target.dataset.id);
 				}, false);
 
-				actualiar.dataset.id = registro.identificador;
-				actualiar.addEventListener('click', function(e){
+				actualizar.dataset.id = registro.identificador;
+				actualizar.addEventListener('click', function(e){
 					e.preventDefault();
 					self.confirmaActualizar(e.target.dataset.id);
 				}, false);
