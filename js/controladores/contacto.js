@@ -36,7 +36,56 @@
 			}
 		},
 
-		actualizar: function(){},
+		// 1. Confirmación de actualización.
+		confirmaActualizar: function(id){
+			var i = 0, max = this.contactos.length;
+			if(confirm("Desea actualizar este contacto?")){
+				for(; i < max; i = i + 1){
+					if(parseInt(id, 10) === this.contactos[i].identificador){
+						this.contacto = this.contactos[i];
+						break;
+					}
+				}
+				window.location.hash = '#/actualizar-contacto';
+			}
+		},
+
+		// 2. Preparar la actualización
+		preparaActualizacion: function(){
+			var formulario = _.get('frmActualiza');
+			formulario.identificador.value = this.contacto.identificador;
+			formulario.nombre.value        = this.contacto.nombre;
+			formulario.correo.value        = this.contacto.correo;
+			formulario.edad.value          = this.contacto.edad;
+			formulario.nacimiento.value    = this.contacto.nacimiento;
+			formulario.recibir.checked     = this.contacto.recibir;
+			formulario.color.value         = this.contacto.color;
+		},
+
+		// 3. Cuando el usuario da clic en actualizar, se actualiza el contacto.
+		actualizar: function(formulario){
+			var i = 0, max = this.contactos.length;
+
+			this.contacto.nombre = formulario.nombre.value;
+			this.contacto.correo = formulario.correo.value;
+			this.contacto.edad = parseInt(formulario.edad.value, 10);
+			this.contacto.nacimiento = formulario.nacimiento.value;
+			this.contacto.recibir = formulario.recibir.checked;
+			this.contacto.color = formulario.color.value;
+
+			for(; i < max; i = i + 1){
+				if(this.contacto.identificador === this.contactos[i].identificador){
+					this.contactos.splice(i, 1);
+					break;
+				}
+			}
+
+			this.contactos.push(this.contacto);
+			this.contacto = {};
+			formulario.reset();
+			alert("El contacto ha sido actualizado");
+			window.location.hash = '#/listar-contactos';
+		},
 
 		listar: function(){
 			var cuerpo   = _.get('cuerpoTabla'),

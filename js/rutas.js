@@ -12,6 +12,11 @@
 								'contacto', function(){
 									_.getCtrl().listar();
 								})
-					.ruta('/actualizar-contacto', 'vistas/contactos/actualizar.html', 'contacto', null);
+					.ruta('/actualizar-contacto',
+							  'vistas/contactos/actualizar.html',
+							  'contacto', function(){
+							  	_.getID('frmActualiza').noSubmit();
+							  	_.getCtrl().preparaActualizacion();
+							  });
 
 })(window, document);

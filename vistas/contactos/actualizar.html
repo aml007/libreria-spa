@@ -1,6 +1,6 @@
 <div class="ed-container">
 	<div class="ed-item">
-	<form action="#" method="post">
+	<form id="frmActualiza" action="#" method="post">
 		<fieldset>
 			<legend>Crear contacto</legend>
 
@@ -31,7 +31,11 @@
 			<input type="radio" name="color" id="verde" value="verde">
 			<label for="verde">Azul</label>
 
-			<button type="submit" id="btnActualizar">Actualizar</button>
+			<button type="submit"
+							id="btnActualizar"
+							onclick="_.getCtrl().actualizar(_.get('frmActualiza'))">
+							Actualizar
+			</button>
 			
 		</fieldset>
 	</form>
